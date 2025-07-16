@@ -1,0 +1,22 @@
+/* src/components/common/AlertMessage.module.css */
+.successMessage {
+  color: #155724; /* Verde oscuro */
+  background-color: #d4edda; /* Verde claro de tus imágenes */
+  border: 1px solid #c3e6cb;
+  padding: 10px;
+  border-radius: 4px;
+  margin-bottom: 15px;
+  text-align: center;
+  font-weight: bold;
+}
+
+.errorMessage {
+  color: #721c24; /* Rojo oscuro */
+  background-color: #f8d7da; /* Rojo claro de tus imágenes */
+  border: 1px solid #f5c6cb;
+  padding: 10px;
+  border-radius: 4px;
+  margin-bottom: 15px;
+  text-align: center;
+  font-weight: bold;
+}

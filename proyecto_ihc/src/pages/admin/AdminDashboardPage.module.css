@@ -1,0 +1,51 @@
+/* src/pages/admin/AdminDashboardPage.module.css */
+.adminContainer {
+  max-width: 900px;
+  margin: 50px auto;
+  padding: 30px;
+  background-color: white;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  text-align: center;
+}
+
+.adminContainer h1 {
+  color: #6a11cb;
+  margin-bottom: 20px;
+}
+
+.adminContainer p {
+  color: #555;
+  margin-bottom: 30px;
+}
+
+.adminActions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 20px;
+}
+
+.actionButton {
+  background: linear-gradient(to right, #6a11cb 0%, #2575fc 100%);
+  color: white;
+  padding: 15px 25px;
+  border: none;
+  border-radius: 8px;
+  font-size: 1.1em;
+  cursor: pointer;
+  transition: opacity 0.3s ease;
+  flex-basis: calc(33% - 20px);
+  max-width: 250px;
+}
+
+.actionButton:hover {
+  opacity: 0.9;
+}
+
+.loading {
+    text-align: center;
+    padding: 50px;
+    font-size: 1.2em;
+    color: #555;
+}

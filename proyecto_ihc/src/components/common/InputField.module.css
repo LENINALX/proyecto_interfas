@@ -1,0 +1,29 @@
+/* src/components/common/InputField.module.css */
+.inputGroup {
+  margin-bottom: 15px;
+  text-align: left;
+}
+
+.label {
+  display: block;
+  margin-bottom: 5px;
+  font-weight: bold;
+  color: #333;
+  display: none; /* Oculta el label para que solo se vea el placeholder */
+}
+
+.input {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  box-sizing: border-box;
+  font-size: 1em;
+  outline: none;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.input:focus {
+  border-color: #007bff; /* Un azul de enfoque que combina */
+  box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.25); /* Sombra azul tenue al enfocar */
+}

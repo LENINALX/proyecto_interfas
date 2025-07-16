@@ -1,0 +1,148 @@
+/* src/components/layout/Header.module.css */
+.header {
+  background: linear-gradient(to right, #00c6ff 0%, #0072ff 100%); /* Gradiente azul del header */
+  padding: 10px 20px;
+  color: white;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  position: fixed; /* Header fijo en la parte superior */
+  width: 100%;
+  top: 0;
+  left: 0;
+  z-index: 1000; /* Asegura que esté por encima de otros contenidos */
+}
+
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  max-width: 1300px; /* Un poco más de ancho para los elementos */
+  margin: 0 auto;
+  height: 50px; /* Altura fija para el navbar */
+}
+
+.logo {
+  font-size: 1.8em;
+  font-weight: bold;
+  text-decoration: none;
+  color: white;
+  margin-right: 20px;
+  flex-shrink: 0; /* No se encoge */
+}
+
+.searchBar {
+  flex-grow: 1; /* Permite que la barra de búsqueda ocupe el espacio disponible */
+  margin: 0 20px;
+  display: flex;
+  justify-content: center;
+}
+
+.searchInput {
+  padding: 8px 15px;
+  border: none;
+  border-radius: 20px; /* Bordes redondeados de la barra de búsqueda */
+  outline: none;
+  width: 100%;
+  max-width: 400px; /* Ancho máximo para el input de búsqueda */
+  font-size: 1em;
+  color: #333;
+}
+
+.navLinks {
+  display: flex;
+  align-items: center;
+  gap: 15px; /* Espacio entre los elementos de navegación */
+  flex-shrink: 0;
+}
+
+.navLink {
+  color: white;
+  text-decoration: none;
+  font-size: 1.1em;
+  display: flex;
+  align-items: center;
+  padding: 8px 12px;
+  border-radius: 20px;
+  transition: background-color 0.2s ease, box-shadow 0.2s ease;
+  white-space: nowrap; /* Evita que el texto se rompa en varias líneas */
+}
+
+.navLink:hover {
+  background-color: rgba(255, 255, 255, 0.2); /* Fondo sutil al pasar el mouse */
+}
+
+.navLink.activeLink { /* Estilo para el botón "Rutas" resaltado */
+  background-color: #5ac8fa; /* Un azul claro/celeste de tus imágenes */
+  font-weight: bold;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+}
+
+.navIcon {
+  margin-right: 5px;
+  font-size: 1.2em; /* Tamaño del icono */
+}
+
+.logoutButton {
+  background-color: transparent;
+  border: 1px solid white;
+  color: white;
+  padding: 8px 15px;
+  border-radius: 20px;
+  cursor: pointer;
+  margin-left: 20px;
+  transition: background-color 0.2s ease, color 0.2s ease;
+  font-size: 1.1em;
+}
+
+.logoutButton:hover {
+  background-color: white;
+  color: #0072ff;
+}
+
+/* Estilos para los elementos de navegación con dropdown */
+.navItem {
+  position: relative;
+}
+
+.dropdownMenu {
+  position: absolute;
+  top: 100%; /* Debajo del elemento padre */
+  left: 0;
+  background-color: white;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  border-radius: 4px;
+  min-width: 180px; /* Ancho mínimo para el menú */
+  padding: 10px 0;
+  display: flex;
+  flex-direction: column;
+  z-index: 1001; /* Por encima del header si es necesario */
+  animation: fadeIn 0.2s ease-out; /* Animación de aparición */
+}
+
+.dropdownItem {
+  color: #333; /* Color de texto para los ítems del dropdown */
+  padding: 8px 15px;
+  text-decoration: none;
+  white-space: nowrap;
+  transition: background-color 0.2s ease;
+  font-size: 1em;
+}
+
+.dropdownItem:hover {
+  background-color: #f0f0f0; /* Fondo al pasar el mouse */
+}
+
+.dropdownItem.viewAll {
+    font-weight: bold;
+    color: #0072ff; /* Azul para "Ver todas las rutas..." */
+    text-align: center;
+    border-top: 1px solid #eee; /* Separador */
+    margin-top: 5px;
+    padding-top: 10px;
+}
+
+/* Animación simple de fade-in para los dropdowns */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(-10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+

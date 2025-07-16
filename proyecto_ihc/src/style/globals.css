@@ -1,0 +1,82 @@
+/* src/styles/globals.css */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap');
+
+/* Estilos generales para el body y html */
+body, html {
+  margin: 0;
+  padding: 0;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  color: #1a1a1a; /* Color de texto predeterminado */
+  line-height: 1.6; /* Espaciado de línea para mejor legibilidad */
+}
+
+/* Gradiente de fondo para toda la aplicación */
+body {
+  background: linear-gradient(to bottom, #a0d0eb 0%, #6a11cb 100%); /* Gradiente morado-azul */
+  min-height: 100vh; /* Asegura que el gradiente ocupe toda la altura visible */
+  display: flex;
+  flex-direction: column;
+}
+
+/* Asegura que el contenedor principal de la aplicación ocupe todo el espacio */
+.App {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh; /* Ocuapa al menos el 100% de la altura de la ventana */
+}
+
+/* Contenedor principaal para el contenido de las páginas (el cuadro blanco grande) */
+main {
+  flex-grow: 1;
+  padding-top: 70px; /* Ajusta este valor para dejar espacio al header fijo */
+  padding-bottom: 20px;
+  box-sizing: border-box; /* Incluye padding y border en el tamaño total */
+  display: flex; /* Para centrar el contenido de la página */
+  justify-content: center;
+  align-items: flex-start; /* Alinea al inicio del eje cruzado (arriba) */
+  width: 100%;
+}
+
+/* Clase general para contenedores de página (los cuadros blancos) */
+.container {
+  max-width: 900px; /* Ancho de los contenedores blancos */
+  width: 100%; /* Asegura que ocupe el ancho disponible hasta el max-width */
+  margin: 20px auto; /* Margin top/bottom y auto para centrar */
+  padding: 30px;
+  background-color: rgba(255, 255, 255, 0.95); /* Blanco con algo de transparencia para el efecto de luz */
+  border-radius: 8px;
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+  text-align: center;
+  box-sizing: border-box;
+}
+
+/* Otros estilos globales (si los necesitas en el futuro) */
+a {
+    color: inherit; /* Los enlaces heredan el color del texto padre por defecto */
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    margin-top: 0;
+    margin-bottom: 0.5em;
+    font-weight: 600; /* Coherente con tu fuente Inter */
+}
+
+p {
+    margin-top: 0;
+    margin-bottom: 1em;
+}
+
+ul {
+    margin-top: 0;
+    margin-bottom: 1em;
+}

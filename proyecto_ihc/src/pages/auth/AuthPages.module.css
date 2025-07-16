@@ -1,0 +1,33 @@
+/* src/pages/auth/AuthPages.module.css */
+.authContainer {
+  max-width: 400px;
+  margin: 50px auto;
+  padding: 30px;
+  background-color: white; /* Fondo blanco */
+  border-radius: 8px; /* Bordes redondeados */
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Sombra suave */
+  text-align: center;
+}
+
+.authContainer h2 {
+  color: #333;
+  margin-bottom: 20px;
+  font-size: 1.8em; /* Ajuste de tamaño para los títulos */
+}
+
+.authContainer form {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.link {
+    color: #007bff; /* Un azul que combina con el gradiente */
+    text-decoration: none;
+    font-size: 0.9em;
+    margin-top: 15px; /* Espacio entre el botón y el enlace */
+    display: block; /* Para que el margin-top funcione */
+}
+.link:hover {
+    text-decoration: underline;
+}

@@ -1,0 +1,26 @@
+/* src/components/common/Button.module.css */
+.button {
+  padding: 12px 20px;
+  border: none;
+  border-radius: 4px; /* Bordes ligeramente redondeados como en tus imágenes */
+  background: linear-gradient(to right, #00c6ff 0%, #0072ff 100%); /* Gradiente azul de tus imágenes */
+  color: white;
+  font-size: 1.1em;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+  width: 100%; /* Para que ocupe todo el ancho del formulario */
+  box-sizing: border-box; /* Incluye padding en el ancho */
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Sombra sutil para el botón */
+}
+
+.button:hover {
+  background: linear-gradient(to right, #00b0e0 0%, #005bb5 100%); /* Un gradiente ligeramente diferente al hacer hover */
+  transform: translateY(-2px); /* Efecto de "levantar" */
+}
+
+.button:disabled {
+  background: #ccc;
+  cursor: not-allowed;
+  box-shadow: none;
+  transform: none;
+}
