@@ -1,5 +1,5 @@
-import { useState } from "react";
-import { FaHome, FaRoute, FaBicycle, FaTree, FaSearch, FaMapMarkerAlt, FaClock, FaStar } from "react-icons/fa";
+import { useState, useEffect } from "react";
+import { FaHome, FaRoute, FaBicycle, FaTree, FaSearch, FaMapMarkerAlt, FaClock, FaStar, FaGlobe, FaKeyboard } from "react-icons/fa";
 
 function App() {
   const [activeTab, setActiveTab] = useState("inicio");
@@ -7,6 +7,102 @@ function App() {
   const [searchTerm, setSearchTerm] = useState("");
   const [searchResults, setSearchResults] = useState([]);
   const [showSearch, setShowSearch] = useState(false);
+  const [language, setLanguage] = useState("es");
+  const [showShortcuts, setShowShortcuts] = useState(false);
+
+  // Traducciones
+  const translations = {
+    es: {
+      // Navegación
+      home: "Inicio",
+      routes: "Rutas",
+      cycling: "Ciclismo",
+      parks: "Parques",
+      search: "Buscar rutas, parques...",
+      
+      // Página de inicio
+      welcome: "Bienvenido a Transporte",
+      subtitle: "Tu compañero de viaje para explorar la ciudad",
+      login: "Iniciar Sesión",
+      email: "Correo electrónico",
+      password: "Contraseña",
+      loginDev: "Funcionalidad de login en desarrollo",
+      
+      // Secciones
+      transportRoutes: "Rutas de Transporte",
+      cyclingRoutes: "Rutas de Ciclismo",
+      parksSpaces: "Parques y Espacios Naturales",
+      
+      // Búsqueda
+      searchResults: "Resultados de búsqueda para:",
+      noResults: "No se encontraron resultados",
+      
+      // Botones
+      select: "Seleccionar",
+      selected: "Seleccionaste",
+      seeAll: "Ver todas las rutas...",
+      seeAllParks: "Ver todos los parques...",
+      
+      // Atajos de teclado
+      shortcuts: "Atajos de Teclado",
+      shortcutsList: {
+        "Alt + H": "Ir a Inicio",
+        "Alt + R": "Ver Rutas",
+        "Alt + C": "Ver Ciclismo",
+        "Alt + P": "Ver Parques",
+        "Alt + S": "Buscar",
+        "Alt + L": "Cambiar idioma",
+        "Alt + K": "Mostrar atajos",
+        "Escape": "Cerrar menús"
+      }
+    },
+    en: {
+      // Navigation
+      home: "Home",
+      routes: "Routes",
+      cycling: "Cycling",
+      parks: "Parks",
+      search: "Search routes, parks...",
+      
+      // Home page
+      welcome: "Welcome to Transport",
+      subtitle: "Your travel companion to explore the city",
+      login: "Sign In",
+      email: "Email",
+      password: "Password",
+      loginDev: "Login functionality in development",
+      
+      // Sections
+      transportRoutes: "Transport Routes",
+      cyclingRoutes: "Cycling Routes",
+      parksSpaces: "Parks and Natural Spaces",
+      
+      // Search
+      searchResults: "Search results for:",
+      noResults: "No results found",
+      
+      // Buttons
+      select: "Select",
+      selected: "You selected",
+      seeAll: "See all routes...",
+      seeAllParks: "See all parks...",
+      
+      // Keyboard shortcuts
+      shortcuts: "Keyboard Shortcuts",
+      shortcutsList: {
+        "Alt + H": "Go to Home",
+        "Alt + R": "View Routes",
+        "Alt + C": "View Cycling",
+        "Alt + P": "View Parks",
+        "Alt + S": "Search",
+        "Alt + L": "Change language",
+        "Alt + K": "Show shortcuts",
+        "Escape": "Close menus"
+      }
+    }
+  };
+
+  const t = translations[language];
 
   const rutas = [
     { id: 1, nombre: "Linea 1", descripcion: "Ciudadela 15 de abril - Los Gavilanes", duracion: "81 min", distancia: "2.5 km", rating: "4.5" },
@@ -47,6 +143,63 @@ function App() {
     { id: 10, nombre: "Parque Mirador", descripcion: "Vista panorámica de toda la región", duracion: "50 min", distancia: "1.9 km", rating: "4.8" }
   ];
 
+  // Atajos de teclado
+  useEffect(() => {
+    const handleKeyDown = (e) => {
+      if (e.altKey) {
+        switch (e.key.toLowerCase()) {
+          case 'h':
+            e.preventDefault();
+            setActiveTab("inicio");
+            setMenuOpen(null);
+            setShowSearch(false);
+            break;
+          case 'r':
+            e.preventDefault();
+            setActiveTab("rutas");
+            setMenuOpen("rutas");
+            setShowSearch(false);
+            break;
+          case 'c':
+            e.preventDefault();
+            setActiveTab("ciclismo");
+            setMenuOpen("ciclismo");
+            setShowSearch(false);
+            break;
+          case 'p':
+            e.preventDefault();
+            setActiveTab("parques");
+            setMenuOpen("parques");
+            setShowSearch(false);
+            break;
+          case 's':
+            e.preventDefault();
+            document.querySelector('.search-box input').focus();
+            break;
+          case 'l':
+            e.preventDefault();
+            setLanguage(language === 'es' ? 'en' : 'es');
+            break;
+          case 'k':
+            e.preventDefault();
+            setShowShortcuts(!showShortcuts);
+            break;
+          default:
+            break;
+        }
+      }
+      
+      if (e.key === 'Escape') {
+        setMenuOpen(null);
+        setShowSearch(false);
+        setShowShortcuts(false);
+      }
+    };
+
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [language, showShortcuts]);
+
   const toggleMenu = (menu) => {
     setMenuOpen(menuOpen === menu ? null : menu);
     setActiveTab(menu);
@@ -64,6 +217,10 @@ function App() {
     } else {
       setSearchResults([]);
     }
+  };
+
+  const toggleLanguage = () => {
+    setLanguage(language === 'es' ? 'en' : 'es');
   };
 
   const renderItemCard = (item, type) => (
@@ -86,22 +243,43 @@ function App() {
           <span>{item.distancia}</span>
         </div>
       </div>
-      <button className="action-btn" onClick={() => alert(`Seleccionaste ${item.nombre}`)}>
-        Seleccionar
+      <button className="action-btn" onClick={() => alert(`${t.selected} ${item.nombre}`)}>
+        {t.select}
       </button>
     </div>
+  );
+
+  const renderShortcutsModal = () => (
+    showShortcuts && (
+      <div className="shortcuts-modal" onClick={() => setShowShortcuts(false)}>
+        <div className="shortcuts-content" onClick={(e) => e.stopPropagation()}>
+          <h3>{t.shortcuts}</h3>
+          <div className="shortcuts-list">
+            {Object.entries(t.shortcutsList).map(([key, description]) => (
+              <div key={key} className="shortcut-item">
+                <span className="shortcut-key">{key}</span>
+                <span className="shortcut-description">{description}</span>
+              </div>
+            ))}
+          </div>
+          <button className="close-btn" onClick={() => setShowShortcuts(false)}>
+            {language === 'es' ? 'Cerrar' : 'Close'}
+          </button>
+        </div>
+      </div>
+    )
   );
 
   const renderContent = () => {
     if (showSearch && searchTerm) {
       return (
         <section className="section">
-          <h2>Resultados de búsqueda para: "{searchTerm}"</h2>
+          <h2>{t.searchResults} "{searchTerm}"</h2>
           <div className="search-results">
             {searchResults.length > 0 ? (
               searchResults.map(item => renderItemCard(item, 'search'))
             ) : (
-              <p className="no-results">No se encontraron resultados</p>
+              <p className="no-results">{t.noResults}</p>
             )}
           </div>
         </section>
@@ -113,23 +291,23 @@ function App() {
         return (
           <section className="section">
             <div className="hero">
-              <h1>Bienvenido a Transporte</h1>
-              <p>Tu compañero de viaje para explorar la ciudad</p>
+              <h1>{t.welcome}</h1>
+              <p>{t.subtitle}</p>
             </div>
             <div className="login-container">
-              <h2>Iniciar Sesión</h2>
+              <h2>{t.login}</h2>
               <div className="login-form">
                 <div className="input-group">
-                  <input type="email" placeholder="Correo electrónico" required />
+                  <input type="email" placeholder={t.email} required />
                 </div>
                 <div className="input-group">
-                  <input type="password" placeholder="Contraseña" required />
+                  <input type="password" placeholder={t.password} required />
                 </div>
                 <button 
                   className="login-btn"
-                  onClick={() => alert('Funcionalidad de login en desarrollo')}
+                  onClick={() => alert(t.loginDev)}
                 >
-                  Iniciar Sesión
+                  {t.login}
                 </button>
               </div>
             </div>
@@ -138,7 +316,7 @@ function App() {
       case "rutas":
         return (
           <section className="section">
-            <h2>Rutas de Transporte</h2>
+            <h2>{t.transportRoutes}</h2>
             <div className="items-grid">
               {rutas.map(ruta => renderItemCard(ruta, 'ruta'))}
             </div>
@@ -147,7 +325,7 @@ function App() {
       case "ciclismo":
         return (
           <section className="section">
-            <h2>Rutas de Ciclismo</h2>
+            <h2>{t.cyclingRoutes}</h2>
             <div className="items-grid">
               {ciclismo.map(ruta => renderItemCard(ruta, 'ciclismo'))}
             </div>
@@ -156,7 +334,7 @@ function App() {
       case "parques":
         return (
           <section className="section">
-            <h2>Parques y Espacios Naturales</h2>
+            <h2>{t.parksSpaces}</h2>
             <div className="items-grid">
               {parques.map(parque => renderItemCard(parque, 'parque'))}
             </div>
@@ -171,7 +349,7 @@ function App() {
     <div className="App">
       <header className="navbar">
         <div className="logo">
-          <span className="logo-icon"></span>
+          <span className="logo-icon">🚌</span>
           Rutas de Transporte
         </div>
         
@@ -180,13 +358,31 @@ function App() {
             <FaSearch className="search-icon" />
             <input
               type="text"
-              placeholder="Buscar rutas, parques..."
+              placeholder={t.search}
               value={searchTerm}
               onChange={(e) => handleSearch(e.target.value)}
               onFocus={() => setShowSearch(true)}
               onBlur={() => setTimeout(() => setShowSearch(false), 200)}
             />
           </div>
+        </div>
+
+        <div className="navbar-actions">
+          <button 
+            className="icon-btn" 
+            onClick={() => setShowShortcuts(true)}
+            title={t.shortcuts}
+          >
+            <FaKeyboard />
+          </button>
+          <button 
+            className="icon-btn language-btn" 
+            onClick={toggleLanguage}
+            title={language === 'es' ? 'English' : 'Español'}
+          >
+            <FaGlobe />
+            <span>{language === 'es' ? 'EN' : 'ES'}</span>
+          </button>
         </div>
 
         <nav>
@@ -196,7 +392,7 @@ function App() {
                 onClick={() => toggleMenu("inicio")}
                 className={activeTab === "inicio" ? "active" : ""}
               >
-                <FaHome /> Inicio
+                <FaHome /> {t.home}
               </button>
             </li>
             <li className="dropdown">
@@ -204,15 +400,15 @@ function App() {
                 onClick={() => toggleMenu("rutas")}
                 className={activeTab === "rutas" ? "active" : ""}
               >
-                <FaRoute /> Rutas
+                <FaRoute /> {t.routes}
               </button>
               <ul className={`submenu ${menuOpen === "rutas" ? "show" : ""}`}>
                 {rutas.slice(0, 5).map((r, i) => (
-                  <li key={i} onClick={() => alert(`Seleccionaste ${r.nombre}`)}>
+                  <li key={i} onClick={() => alert(`${t.selected} ${r.nombre}`)}>
                     {r.nombre}
                   </li>
                 ))}
-                <li className="more">Ver todas las rutas...</li>
+                <li className="more">{t.seeAll}</li>
               </ul>
             </li>
             <li className="dropdown">
@@ -220,11 +416,11 @@ function App() {
                 onClick={() => toggleMenu("ciclismo")}
                 className={activeTab === "ciclismo" ? "active" : ""}
               >
-                <FaBicycle /> Ciclismo
+                <FaBicycle /> {t.cycling}
               </button>
               <ul className={`submenu ${menuOpen === "ciclismo" ? "show" : ""}`}>
                 {ciclismo.map((r, i) => (
-                  <li key={i} onClick={() => alert(`Seleccionaste ${r.nombre}`)}>
+                  <li key={i} onClick={() => alert(`${t.selected} ${r.nombre}`)}>
                     {r.nombre}
                   </li>
                 ))}
@@ -235,15 +431,15 @@ function App() {
                 onClick={() => toggleMenu("parques")}
                 className={activeTab === "parques" ? "active" : ""}
               >
-                <FaTree /> Parques
+                <FaTree /> {t.parks}
               </button>
               <ul className={`submenu ${menuOpen === "parques" ? "show" : ""}`}>
                 {parques.slice(0, 5).map((p, i) => (
-                  <li key={i} onClick={() => alert(`Seleccionaste ${p.nombre}`)}>
+                  <li key={i} onClick={() => alert(`${t.selected} ${p.nombre}`)}>
                     {p.nombre}
                   </li>
                 ))}
-                <li className="more">Ver todos los parques...</li>
+                <li className="more">{t.seeAllParks}</li>
               </ul>
             </li>
           </ul>
@@ -253,6 +449,8 @@ function App() {
       <main className="main-content">
         {renderContent()}
       </main>
+      
+      {renderShortcutsModal()}
       
       <style jsx>{`
         .App {
@@ -322,6 +520,38 @@ function App() {
           transform: translateY(-50%);
           color: #666;
           font-size: 1.1rem;
+        }
+
+        .navbar-actions {
+          display: flex;
+          gap: 1rem;
+          align-items: center;
+        }
+
+        .icon-btn {
+          background: rgba(255,255,255,0.2);
+          border: none;
+          color: white;
+          padding: 0.75rem;
+          border-radius: 50%;
+          cursor: pointer;
+          display: flex;
+          align-items: center;
+          gap: 0.5rem;
+          transition: all 0.3s ease;
+          backdrop-filter: blur(10px);
+        }
+
+        .icon-btn:hover {
+          background: rgba(255,255,255,0.3);
+          transform: translateY(-2px);
+        }
+
+        .language-btn {
+          border-radius: 25px;
+          padding: 0.5rem 1rem;
+          font-size: 0.9rem;
+          font-weight: bold;
         }
 
         .nav-links {
@@ -415,6 +645,98 @@ function App() {
           border-bottom: none;
         }
 
+        .shortcuts-modal {
+          position: fixed;
+          top: 0;
+          left: 0;
+          width: 100%;
+          height: 100%;
+          background: rgba(0,0,0,0.5);
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          z-index: 2000;
+          animation: fadeIn 0.3s ease;
+        }
+
+        .shortcuts-content {
+          background: white;
+          border-radius: 20px;
+          padding: 2rem;
+          max-width: 500px;
+          width: 90%;
+          max-height: 80vh;
+          overflow-y: auto;
+          animation: slideIn 0.3s ease;
+        }
+
+        .shortcuts-content h3 {
+          margin-top: 0;
+          color: #333;
+          text-align: center;
+          margin-bottom: 1.5rem;
+        }
+
+        .shortcuts-list {
+          display: flex;
+          flex-direction: column;
+          gap: 1rem;
+        }
+
+        .shortcut-item {
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          padding: 0.75rem;
+          background: #f8f9fa;
+          border-radius: 10px;
+          border-left: 4px solid #4facfe;
+        }
+
+        .shortcut-key {
+          background: #4facfe;
+          color: white;
+          padding: 0.25rem 0.75rem;
+          border-radius: 5px;
+          font-family: monospace;
+          font-weight: bold;
+          font-size: 0.9rem;
+        }
+
+        .shortcut-description {
+          color: #666;
+          flex: 1;
+          margin-left: 1rem;
+        }
+
+        .close-btn {
+          width: 100%;
+          margin-top: 1.5rem;
+          background: linear-gradient(45deg, #4facfe, #00f2fe);
+          color: white;
+          border: none;
+          padding: 0.75rem;
+          border-radius: 10px;
+          font-weight: bold;
+          cursor: pointer;
+          transition: all 0.3s ease;
+        }
+
+        .close-btn:hover {
+          transform: translateY(-2px);
+          box-shadow: 0 10px 20px rgba(79,172,254,0.4);
+        }
+
+        @keyframes fadeIn {
+          from { opacity: 0; }
+          to { opacity: 1; }
+        }
+
+        @keyframes slideIn {
+          from { transform: translateY(-20px); opacity: 0; }
+          to { transform: translateY(0); opacity: 1; }
+        }
+
         .main-content {
           padding: 2rem;
         }
@@ -426,11 +748,6 @@ function App() {
           padding: 2rem;
           box-shadow: 0 10px 40px rgba(0,0,0,0.1);
           animation: fadeIn 0.5s ease-in-out;
-        }
-
-        @keyframes fadeIn {
-          from { opacity: 0; transform: translateY(20px); }
-          to { opacity: 1; transform: translateY(0); }
         }
 
         .hero {
@@ -618,10 +935,29 @@ function App() {
           .items-grid {
             grid-template-columns: 1fr;
           }
+
+          .navbar-actions {
+            order: -1;
+          }
+
+          .shortcuts-content {
+            width: 95%;
+            padding: 1.5rem;
+          }
+
+          .shortcut-item {
+            flex-direction: column;
+            gap: 0.5rem;
+            text-align: center;
+          }
+
+          .shortcut-description {
+            margin-left: 0;
+          }
         }
+      }
       `}</style>
     </div>
   );
-}
-
+} 
 export default App;
