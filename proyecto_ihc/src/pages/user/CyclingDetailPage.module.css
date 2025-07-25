@@ -1,0 +1,53 @@
+.container {
+  max-width: 800px;
+  margin: 2rem auto;
+  padding: 1rem;
+  color: #333;
+}
+.back {
+  background: none;
+  border: none;
+  color: #7f5a83;
+  cursor: pointer;
+  margin-bottom: 1rem;
+}
+.back:hover { text-decoration: underline; }
+
+.title {
+  font-size: 2rem;
+  margin-bottom: 1rem;
+  color: #5a4f6a;
+}
+
+.stats {
+  background: #fff;
+  padding: 1rem;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  margin-bottom: 1.5rem;
+}
+.stats div {
+  display: flex;
+  align-items: center;
+  margin-bottom: 0.75rem;
+  font-size: 1.1rem;
+}
+.statIcon {
+  margin-right: 0.75rem;
+  font-size: 1.4rem;
+}
+
+.mapWrapper {
+  text-align: center;
+}
+.map {
+  width: 100%;
+  border-radius: 8px;
+}
+
+/* Mensaje no encontrada */
+.notFound {
+  text-align: center;
+  margin-top: 2rem;
+  color: #7f5a83;
+}

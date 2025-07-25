@@ -1,8 +1,9 @@
-// src/components/layout/Header.js
 import React, { useState, useEffect } from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import styles from './Header.module.css';
 import { FaHome, FaRoute, FaBiking, FaTree } from 'react-icons/fa';
+import routes from '../../data/routesData';
+import cyclingData from '../../data/cyclingData';
 
 const Header = () => {
   const navigate = useNavigate();
@@ -21,15 +22,15 @@ const Header = () => {
 
   const toggleRoutesDropdown = () => {
     closeAllDropdowns();
-    setShowRoutesDropdown(prev => !prev);
+    setShowRoutesDropdown(v => !v);
   };
   const toggleCyclingDropdown = () => {
     closeAllDropdowns();
-    setShowCyclingDropdown(prev => !prev);
+    setShowCyclingDropdown(v => !v);
   };
   const toggleParksDropdown = () => {
     closeAllDropdowns();
-    setShowParksDropdown(prev => !prev);
+    setShowParksDropdown(v => !v);
   };
 
   const handleLogout = () => {
@@ -39,7 +40,7 @@ const Header = () => {
   };
 
   useEffect(() => {
-    const handleClickOutside = (e) => {
+    const handleClickOutside = e => {
       if (!e.target.closest(`.${styles.navItem}`)) {
         closeAllDropdowns();
       }
@@ -51,10 +52,12 @@ const Header = () => {
   return (
     <header className={styles.header}>
       <nav className={styles.navbar}>
+        {/* Logo */}
         <Link to="/home" className={styles.logo}>
           Rutas de Transporte
         </Link>
 
+        {/* Buscador */}
         <div className={styles.searchBar}>
           <input
             type="text"
@@ -63,16 +66,19 @@ const Header = () => {
           />
         </div>
 
+        {/* Enlaces de navegación */}
         <div className={styles.navLinks}>
           <Link
             to="/home"
-            className={`${styles.navLink} ${location.pathname === '/home' ? styles.activeLink : ''}`}
+            className={`${styles.navLink} ${
+              location.pathname === '/home' ? styles.activeLink : ''
+            }`}
             onClick={closeAllDropdowns}
           >
             <FaHome className={styles.navIcon} /> Inicio
           </Link>
 
-          {/* Rutas */}
+          {/* Dropdown Rutas */}
           <div
             className={styles.navItem}
             onMouseEnter={toggleRoutesDropdown}
@@ -80,21 +86,23 @@ const Header = () => {
           >
             <Link
               to="/routes"
-              className={`${styles.navLink} ${location.pathname.startsWith('/routes') ? styles.activeLink : ''}`}
+              className={`${styles.navLink} ${
+                location.pathname.startsWith('/routes') ? styles.activeLink : ''
+              }`}
               onClick={closeAllDropdowns}
             >
               <FaRoute className={styles.navIcon} /> Rutas
             </Link>
             {showRoutesDropdown && (
               <div className={styles.dropdownMenu}>
-                {[1,2,3,4,5,7,8,9,10,11,12,14,15,16,17].map(num => (
+                {routes.map(r => (
                   <Link
-                    key={num}
-                    to={`/routes/${num}`}
+                    key={r.id}
+                    to={`/routes/${r.id}`}
                     className={styles.dropdownItem}
                     onClick={closeAllDropdowns}
                   >
-                    Línea {num}
+                    {r.name}
                   </Link>
                 ))}
                 <Link
@@ -108,7 +116,7 @@ const Header = () => {
             )}
           </div>
 
-          {/* Ciclismo */}
+          {/* Dropdown Ciclismo */}
           <div
             className={styles.navItem}
             onMouseEnter={toggleCyclingDropdown}
@@ -116,27 +124,37 @@ const Header = () => {
           >
             <Link
               to="/cycling"
-              className={`${styles.navLink} ${location.pathname.startsWith('/cycling') ? styles.activeLink : ''}`}
+              className={`${styles.navLink} ${
+                location.pathname.startsWith('/cycling') ? styles.activeLink : ''
+              }`}
               onClick={closeAllDropdowns}
             >
               <FaBiking className={styles.navIcon} /> Ciclismo
             </Link>
             {showCyclingDropdown && (
               <div className={styles.dropdownMenu}>
-                <Link to="/cycling/cicloruta-rio" className={styles.dropdownItem} onClick={closeAllDropdowns}>
-                  Cicloruta del Río
-                </Link>
-                <Link to="/cycling/cicloruta-urbana" className={styles.dropdownItem} onClick={closeAllDropdowns}>
-                  Cicloruta Urbana
-                </Link>
-                <Link to="/cycling/cicloruta-montanosa" className={styles.dropdownItem} onClick={closeAllDropdowns}>
-                  Cicloruta Montañosa
+                {cyclingData.map(c => (
+                  <Link
+                    key={c.id}
+                    to={`/cycling/${c.id}`}
+                    className={styles.dropdownItem}
+                    onClick={closeAllDropdowns}
+                  >
+                    Ruta ciclismo {c.id}
+                  </Link>
+                ))}
+                <Link
+                  to="/cycling"
+                  className={`${styles.dropdownItem} ${styles.viewAll}`}
+                  onClick={closeAllDropdowns}
+                >
+                  Ver todas las rutas de ciclismo...
                 </Link>
               </div>
             )}
           </div>
 
-          {/* Parques */}
+          {/* Dropdown Parques */}
           <div
             className={styles.navItem}
             onMouseEnter={toggleParksDropdown}
@@ -144,26 +162,48 @@ const Header = () => {
           >
             <Link
               to="/parks"
-              className={`${styles.navLink} ${location.pathname.startsWith('/parks') ? styles.activeLink : ''}`}
+              className={`${styles.navLink} ${
+                location.pathname.startsWith('/parks') ? styles.activeLink : ''
+              }`}
               onClick={closeAllDropdowns}
             >
               <FaTree className={styles.navIcon} /> Parques
             </Link>
             {showParksDropdown && (
               <div className={styles.dropdownMenu}>
-                <Link to="/parks/parque-central" className={styles.dropdownItem} onClick={closeAllDropdowns}>
+                <Link
+                  to="/parks/parque-central"
+                  className={styles.dropdownItem}
+                  onClick={closeAllDropdowns}
+                >
                   Parque Central
                 </Link>
-                <Link to="/parks/parque-lago" className={styles.dropdownItem} onClick={closeAllDropdowns}>
+                <Link
+                  to="/parks/parque-lago"
+                  className={styles.dropdownItem}
+                  onClick={closeAllDropdowns}
+                >
                   Parque del Lago
                 </Link>
-                <Link to="/parks/parque-infantil" className={styles.dropdownItem} onClick={closeAllDropdowns}>
+                <Link
+                  to="/parks/parque-infantil"
+                  className={styles.dropdownItem}
+                  onClick={closeAllDropdowns}
+                >
                   Parque Infantil
                 </Link>
-                <Link to="/parks/parque-ecologico" className={styles.dropdownItem} onClick={closeAllDropdowns}>
+                <Link
+                  to="/parks/parque-ecologico"
+                  className={styles.dropdownItem}
+                  onClick={closeAllDropdowns}
+                >
                   Parque Ecológico
                 </Link>
-                <Link to="/parks/parque-deportivo" className={styles.dropdownItem} onClick={closeAllDropdowns}>
+                <Link
+                  to="/parks/parque-deportivo"
+                  className={styles.dropdownItem}
+                  onClick={closeAllDropdowns}
+                >
                   Parque Deportivo
                 </Link>
                 <Link
@@ -181,16 +221,27 @@ const Header = () => {
           {user ? (
             <>
               {user.role === 'admin' && (
-                <Link to="/admin/dashboard" className={styles.navLink} onClick={closeAllDropdowns}>
+                <Link
+                  to="/admin/dashboard"
+                  className={styles.navLink}
+                  onClick={closeAllDropdowns}
+                >
                   Panel Admin
                 </Link>
               )}
-              <button onClick={handleLogout} className={styles.logoutButton}>
+              <button
+                onClick={handleLogout}
+                className={styles.logoutButton}
+              >
                 Cerrar Sesión
               </button>
             </>
           ) : (
-            <Link to="/login" className={styles.navLink} onClick={closeAllDropdowns}>
+            <Link
+              to="/login"
+              className={styles.navLink}
+              onClick={closeAllDropdowns}
+            >
               Iniciar Sesión
             </Link>
           )}

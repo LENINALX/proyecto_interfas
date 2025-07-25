@@ -10,7 +10,7 @@ import {
 
 // Componentes de Layout
 import Header from './components/layout/Header';
-
+import CyclingDetailPage from './pages/user/CyclingDetailPage';
 // Páginas de Autenticación
 import RegisterPage from './pages/auth/RegisterPage';
 import LoginPage from './pages/auth/LoginPage';
@@ -103,6 +103,15 @@ function App() {
                 </ProtectedRoute>
               }
             />
+            {/* Detalle de ciclismo por ID */}
+            <Route
+              path="/cycling/:id"
+              element={
+                <ProtectedRoute allowedRoles={['user', 'admin']}>
+                  <CyclingDetailPage />
+                </ProtectedRoute>
+              }
+            />    
 
             {/* Sub-páginas de Ciclismo */}
             <Route

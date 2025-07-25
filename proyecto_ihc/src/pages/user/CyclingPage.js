@@ -1,13 +1,33 @@
-// src/pages/user/CyclingPage.js
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
+import cyclingData from '../../data/cyclingData';
+import styles from './CyclingPage.module.css';
 
-const CyclingPage = () => {
+export default function CyclingPage() {
+  const navigate = useNavigate();
+
   return (
-    <div className="container">
-      <h1>Página de Ciclismo</h1>
-      <p>Aquí se mostrarán las rutas de ciclismo.</p>
+    <div className={styles.container}>
+      <h1 className={styles.heading}>🚴‍♂️ Rutas de Ciclismo</h1>
+      <div className={styles.grid}>
+        {cyclingData.map(route => (
+          <div
+            key={route.id}
+            className={styles.card}
+            onClick={() => navigate(`/cycling/${route.id}`)}
+          >
+            <img
+              src={route.img}
+              alt={route.title}
+              className={styles.thumbnail}
+            />
+            <div className={styles.cardHeader}>
+              <span className={styles.bikeIcon}>🚲</span>
+              <h2 className={styles.title}>{route.title}</h2>
+            </div>
+          </div>
+        ))}
+      </div>
     </div>
   );
-};
-
-export default CyclingPage;
+}
