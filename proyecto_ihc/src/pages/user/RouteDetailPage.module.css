@@ -1,0 +1,90 @@
+
+/* src/pages/user/RouteDetailPage.module.css */
+.container {
+  max-width: 800px;
+  margin: 2rem auto;
+  padding: 1rem;
+  color: #333;
+}
+
+.backButton {
+  background: none;
+  border: none;
+  color: #7f5a83;
+  cursor: pointer;
+  margin-bottom: 1rem;
+}
+.backButton:hover {
+  text-decoration: underline;
+}
+
+.title {
+  font-size: 2rem;
+  margin: 0.5rem 0;
+  color: #5a4f6a;
+}
+
+.desc {
+  font-weight: 500;
+  margin-bottom: 1rem;
+}
+
+/* Bloque de información adicional */
+.info {
+  background: white;
+  padding: 1rem;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  margin-bottom: 1.5rem;
+}
+.info p {
+  margin: 0 0 1rem;
+  line-height: 1.5;
+  color: #444;
+}
+
+/* Mapa */
+.mapWrapper {
+  background: #fdf6f0;
+  padding: 1rem;
+  border-radius: 8px;
+  text-align: center;
+}
+.map {
+  max-width: 100%;
+  border-radius: 4px;
+}
+
+/* Sección de FAQ */
+.faqSection {
+  background: white;
+  padding: 1rem;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  margin-top: 2rem;
+}
+.faqSection h2 {
+  margin-bottom: 1rem;
+  color: #5a4f6a;
+}
+
+.faqItem h3 {
+  font-size: 1rem;
+  margin-bottom: 0.5rem;
+  color: #333;
+}
+.faqItem p {
+  margin-bottom: 1rem;
+  color: #555;
+}
+.faqSection hr {
+  border: none;
+  border-top: 1px solid #eee;
+  margin: 1rem 0;
+}
+
+/* Mensaje de ruta no encontrada */
+.notFound {
+  text-align: center;
+  padding: 2rem;
+}

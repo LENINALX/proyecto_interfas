@@ -1,7 +1,7 @@
-// src/pages/auth/LoginPage.js
 import React, { useState } from 'react';
 import { loginUser } from '../../api/auth';
 import { useNavigate, Link } from 'react-router-dom';
+import { FaEye, FaEyeSlash } from 'react-icons/fa';
 import InputField from '../../components/common/InputField';
 import Button from '../../components/common/Button';
 import AlertMessage from '../../components/common/AlertMessage';
@@ -12,6 +12,7 @@ const LoginPage = () => {
   const [password, setPassword] = useState('');
   const [message, setMessage] = useState('');
   const [isError, setIsError] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
@@ -20,32 +21,23 @@ const LoginPage = () => {
     setIsError(false);
     try {
       const response = await loginUser({ email, password });
-      
-      // *** VERIFICACIÓN CRÍTICA ***
-      // 1. Guardar el token de acceso:
-      // Tu AuthService devuelve { access_token: "...", user: { ... } }
-      // Así que `response.access_token` es correcto.
-      localStorage.setItem('accessToken', response.access_token); 
-      
-      // 2. Guardar el objeto de usuario:
-      // Tu AuthService devuelve { ..., user: { id, email, username, role } }
-      // Entonces `response.user` es el objeto que necesitamos, y `role` ya está incluido.
+      localStorage.setItem('accessToken', response.access_token);
       localStorage.setItem('user', JSON.stringify(response.user));
 
       setMessage('¡Inicio de sesión exitoso!');
       setIsError(false);
 
-      // Ahora que `response.user.role` debería tener un valor ('user' o 'admin'),
-      // esta lógica de redirección funcionará correctamente.
       if (response.user.role === 'admin') {
         navigate('/admin/dashboard');
       } else {
         navigate('/home');
       }
     } catch (error) {
-      console.error("Error completo al iniciar sesión:", error); // Para ver el error detallado en la consola
-      // Mejor manejo de errores, especialmente para Axios/fetch, donde el mensaje puede estar en `error.response.data.message`
-      const errorMessage = error.response?.data?.message || error.message || 'Error desconocido al iniciar sesión.';
+      console.error("Error completo al iniciar sesión:", error);
+      const errorMessage =
+        error.response?.data?.message ||
+        error.message ||
+        'Error desconocido al iniciar sesión.';
       setMessage(`Error al iniciar sesión: ${errorMessage}`);
       setIsError(true);
     }
@@ -65,16 +57,37 @@ const LoginPage = () => {
           placeholder="Correo electrónico"
           required
         />
-        <InputField
-          type="password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          placeholder="Contraseña"
-          required
-        />
+
+        {/* Campo de contraseña con botón mostrar/ocultar */}
+        <div className={styles.passwordField}>
+          <input
+            className={styles.inputField}
+            type={showPassword ? 'text' : 'password'}
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            placeholder="Contraseña"
+            required
+          />
+          <button
+            type="button"
+            className={styles.toggleButton}
+            onClick={() => setShowPassword((s) => !s)}
+            aria-label={
+              showPassword ? 'Ocultar contraseña' : 'Mostrar contraseña'
+            }
+          >
+            {showPassword ? <FaEyeSlash /> : <FaEye />}
+          </button>
+        </div>
+
         <Button type="submit">Iniciar Sesión</Button>
       </form>
-      <p>¿No tienes una cuenta? <Link to="/register" className={styles.link}>Regístrate</Link></p>
+      <p>
+        ¿No tienes una cuenta?{' '}
+        <Link to="/register" className={styles.link}>
+          Regístrate
+        </Link>
+      </p>
     </div>
   );
 };

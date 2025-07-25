@@ -1,33 +1,95 @@
-/* src/pages/auth/AuthPages.module.css */
 .authContainer {
   max-width: 400px;
   margin: 50px auto;
   padding: 30px;
-  background-color: white; /* Fondo blanco */
-  border-radius: 8px; /* Bordes redondeados */
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Sombra suave */
+  background-color: white;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
   text-align: center;
 }
 
 .authContainer h2 {
   color: #333;
   margin-bottom: 20px;
-  font-size: 1.8em; /* Ajuste de tamaño para los títulos */
+  font-size: 1.8em;
 }
 
 .authContainer form {
   display: flex;
   flex-direction: column;
   gap: 15px;
+  width: 100%;
 }
 
-.link {
-    color: #007bff; /* Un azul que combina con el gradiente */
-    text-decoration: none;
-    font-size: 0.9em;
-    margin-top: 15px; /* Espacio entre el botón y el enlace */
-    display: block; /* Para que el margin-top funcione */
+/* Wrapper común para inputs de texto */
+.inputWrapper {
+  width: 100%;
 }
+
+/* Estilos básicos para los inputs de texto */
+.inputWrapper input {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 0.75rem;
+  font-size: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+/* Campo de contraseña con botón */
+.passwordField {
+  position: relative;
+  width: 100%;
+}
+
+.passwordField input {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 0.75rem 2.5rem 0.75rem 0.75rem; /* espacio para el icono */
+  font-size: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.toggleButton {
+  position: absolute;
+  top: 50%;
+  right: 0.75rem;
+  transform: translateY(-50%);
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  font-size: 1.1rem;
+  color: #555;
+}
+
+.toggleButton:focus {
+  outline: none;
+}
+
+/* Enlace de navegación */
+.link {
+  color: #007bff;
+  text-decoration: none;
+  font-size: 0.9em;
+  margin-top: 15px;
+  display: block;
+}
+
 .link:hover {
-    text-decoration: underline;
+  text-decoration: underline;
+}
+/* Mensaje de validación en rojo */
+.validationError {
+  color: #c92a2a;         /* rojo intenso */
+  font-size: 0.9rem;
+  margin-top: -10px;      /* para acercarlo al input */
+  margin-bottom: 10px;
+  text-align: left;       /* que no centre el texto */
+}
+
+/* Si quieres estilizar el estado disabled del botón */
+button[disabled] {
+  opacity: 0.6;
+  cursor: not-allowed;
 }
