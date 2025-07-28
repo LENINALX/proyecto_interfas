@@ -7,7 +7,7 @@ import {
   Navigate,
   Link
 } from 'react-router-dom';
-
+import SuggestionsPage from './pages/SuggestionsPage';
 // Componentes de Layout
 import Header from './components/layout/Header';
 import CyclingDetailPage from './pages/user/CyclingDetailPage';
@@ -70,6 +70,14 @@ function App() {
               element={
                 <ProtectedRoute allowedRoles={['user', 'admin']}>
                   <HomePage />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/suggestions"
+              element={
+                <ProtectedRoute allowedRoles={['user', 'admin']}>
+                  <SuggestionsPage />
                 </ProtectedRoute>
               }
             />

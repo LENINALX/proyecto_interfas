@@ -1,0 +1,54 @@
+.container {
+  max-width: 850px;
+  margin: 40px auto;
+  background: white;
+  border-radius: 10px;
+  box-shadow: 0 6px 16px rgba(0,0,0,0.10);
+  padding: 32px;
+}
+.cards {
+  display: grid;
+  gap: 20px;
+  margin-top: 32px;
+}
+.card {
+  border: 1px solid #dbeafe;
+  border-radius: 8px;
+  padding: 18px 20px 14px 20px;
+  background: #f8fafc;
+  position: relative;
+  transition: box-shadow 0.2s;
+}
+.card:hover {
+  box-shadow: 0 4px 20px rgba(80,130,255,0.10);
+}
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 5px;
+  font-size: 1.15em;
+}
+.type {
+  font-weight: 600;
+  color: #2575fc;
+}
+.visibility {
+  font-size: 1.3em;
+}
+.info {
+  font-size: 1em;
+  color: #222;
+  margin-bottom: 4px;
+}
+.attachment {
+  margin-top: 5px;
+  font-size: 0.98em;
+  color: #666;
+}
+.empty {
+  margin: 48px 0 0 0;
+  font-size: 1.1em;
+  color: #666;
+  text-align: center;
+}
