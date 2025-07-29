@@ -1,21 +1,34 @@
+// src/pages/SuggestionsPage.js
 import React, { useEffect, useState } from "react";
 import styles from "./SuggestionsPage.module.css";
+import { API_BASE_URL } from '../config';
 
 function SuggestionsPage() {
   const [suggestions, setSuggestions] = useState([]);
+  const [loading, setLoading] = useState(true);
 
-  // Cargar sugerencias del localStorage al montar la página
+  // Cargar sugerencias del BACKEND al montar la página
   useEffect(() => {
-    const local = localStorage.getItem("suggestedRoutes");
-    if (local) setSuggestions(JSON.parse(local));
+    setLoading(true);
+    fetch(`${API_BASE_URL}/suggestions`)
+      .then(res => res.json())
+      .then(data => {
+        setSuggestions(data);
+        setLoading(false);
+      })
+      .catch(() => {
+        setSuggestions([]);
+        setLoading(false);
+      });
   }, []);
 
   return (
     <div className={styles.container}>
       <h1>📝 Sugerencias de Rutas</h1>
       <p>Estas son las rutas sugeridas por los usuarios desde el formulario.</p>
-
-      {suggestions.length === 0 ? (
+      {loading ? (
+        <div className={styles.empty}>Cargando...</div>
+      ) : suggestions.length === 0 ? (
         <div className={styles.empty}>No hay sugerencias guardadas todavía.</div>
       ) : (
         <div className={styles.cards}>
@@ -43,15 +56,12 @@ function SuggestionsPage() {
                 <br />
                 <b>Categorías:</b>{" "}
                 {s.categories && s.categories.length
-                  ? s.categories.join(", ")
+                  ? Array.isArray(s.categories)
+                    ? s.categories.join(", ")
+                    : s.categories // Si viene como string
                   : "Ninguna"}
               </div>
-              {s.fileName && (
-                <div className={styles.attachment}>
-                  <b>Archivo:</b> {s.fileName}
-                </div>
-              )}
-              {/* Próximamente: botón para editar y guardar cambios */}
+              {/* Si quieres mostrar el archivo, agrega aquí */}
             </div>
           ))}
         </div>

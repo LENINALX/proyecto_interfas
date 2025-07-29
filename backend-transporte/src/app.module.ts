@@ -3,6 +3,7 @@ import { Module } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { AuthModule } from './auth/auth.module'; // Importación correcta
+import { SuggestionsModule } from './suggestions/suggestions.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 
@@ -27,7 +28,8 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
       }),
       inject: [ConfigService],
     }),
-    AuthModule, // <-- ¡Este debe estar aquí para que el controlador sea accesible!
+    AuthModule, 
+    SuggestionsModule// <-- ¡Este debe estar aquí para que el controlador sea accesible!
   ],
   controllers: [AppController],
   providers: [AppService],

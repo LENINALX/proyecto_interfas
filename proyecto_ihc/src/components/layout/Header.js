@@ -85,6 +85,7 @@ const Header = () => {
         >
           <FaMapMarkerAlt size={20} color="#fff" />
         </button>
+        
 
         {/* Logo modificado con emoji */}
         <Link to="/home" className={styles.logo}>

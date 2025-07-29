@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import styles from './SuggestRouteForm.module.css';
 import { FaTimes, FaMapMarkerAlt } from 'react-icons/fa';
+import { API_BASE_URL } from '../../config'; // Agrega este import
+
 
 export default function SuggestRouteForm({ isOpen, onClose }) {
   const [title, setTitle] = useState('');
@@ -51,6 +53,42 @@ export default function SuggestRouteForm({ isOpen, onClose }) {
     if (!zone.trim()) e.zone = 'Zona obligatoria';
     return e;
   };
+  const handleSubmit = async e => {
+    e.preventDefault();
+    const eValid = validate();
+    if (Object.keys(eValid).length) {
+      setErrors(eValid);
+      return;
+    }
+    const data = {
+      title,
+      type,
+      shortDesc,
+      distance: parseFloat(distance),
+      duration,
+      difficulty,
+      categories,
+      zone,
+      visibility,
+      // El archivo se puede implementar luego (requiere FormData)
+    };
+    try {
+      const res = await fetch(`${API_BASE_URL}/suggestions`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(data)
+      });
+      if (!res.ok) throw new Error("Error al guardar sugerencia");
+      setToast('¡Ruta sugerida con éxito!');
+      setTimeout(() => {
+        setToast('');
+        onClose();
+      }, 1400);
+    } catch (err) {
+      setToast('Error al guardar: ' + err.message);
+      setTimeout(() => setToast(''), 1600);
+    }
+  }
 
   // Confirmación al cerrar con cambios
   const handleTryClose = () => {
@@ -64,19 +102,19 @@ export default function SuggestRouteForm({ isOpen, onClose }) {
   };
 
   // Envío
-  const handleSubmit = e => {
-    e.preventDefault();
-    const eValid = validate();
-    if (Object.keys(eValid).length) {
-      setErrors(eValid);
-      return;
-    }
-    setToast('¡Ruta sugerida con éxito!');
-    setTimeout(() => {
-      setToast('');
-      onClose();
-    }, 1400);
-  };
+  // const handleSubmit = e => {
+  //   e.preventDefault();
+  //   const eValid = validate();
+  //   if (Object.keys(eValid).length) {
+  //     setErrors(eValid);
+  //     return;
+  //   }
+  //   setToast('¡Ruta sugerida con éxito!');
+  //   setTimeout(() => {
+  //     setToast('');
+  //     onClose();
+  //   }, 1400);
+  // };
 
   if (!isOpen) return null;
   return (
@@ -235,3 +273,4 @@ export default function SuggestRouteForm({ isOpen, onClose }) {
     </>
   );
 }
+
