@@ -61,7 +61,24 @@ function SuggestionsPage() {
                     : s.categories // Si viene como string
                   : "Ninguna"}
               </div>
-              {/* Si quieres mostrar el archivo, agrega aquí */}
+              {/*Imagen aquí */}
+              {s.fileUrl && (
+                <div className={styles.attachment}>
+                  <b>Imagen de ruta:</b>
+                  <br />
+                  <img
+                    src={`${API_BASE_URL}${s.fileUrl}`}
+                    alt="Imagen de la ruta"
+                    style={{
+                      maxWidth: "100%",
+                      maxHeight: 180,
+                      marginTop: 8,
+                      borderRadius: 8,
+                      boxShadow: "0 2px 8px rgba(0,0,0,0.07)"
+                    }}
+                  />
+                </div>
+              )}
             </div>
           ))}
         </div>

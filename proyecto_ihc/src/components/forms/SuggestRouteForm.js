@@ -53,6 +53,7 @@ export default function SuggestRouteForm({ isOpen, onClose }) {
     if (!zone.trim()) e.zone = 'Zona obligatoria';
     return e;
   };
+
   const handleSubmit = async e => {
     e.preventDefault();
     const eValid = validate();
@@ -60,35 +61,40 @@ export default function SuggestRouteForm({ isOpen, onClose }) {
       setErrors(eValid);
       return;
     }
-    const data = {
-      title,
-      type,
-      shortDesc,
-      distance: parseFloat(distance),
-      duration,
-      difficulty,
-      categories,
-      zone,
-      visibility,
-      // El archivo se puede implementar luego (requiere FormData)
-    };
+    
+    const formData = new FormData();
+    formData.append("title", title);
+    formData.append("type", type);
+    formData.append("shortDesc", shortDesc);
+    formData.append("distance", distance);
+    formData.append("duration", duration);
+    formData.append("difficulty", difficulty);
+    formData.append("zone", zone);
+    formData.append("visibility", visibility);
+
+    if (categories.length > 0) {
+      categories.forEach(cat => formData.append("categories[]", cat)); // Para arrays, mejor así
+    }
+    if (file) {
+      formData.append("file", file);
+    }
     try {
       const res = await fetch(`${API_BASE_URL}/suggestions`, {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(data)
-      });
-      if (!res.ok) throw new Error("Error al guardar sugerencia");
-      setToast('¡Ruta sugerida con éxito!');
-      setTimeout(() => {
-        setToast('');
-        onClose();
-      }, 1400);
-    } catch (err) {
-      setToast('Error al guardar: ' + err.message);
-      setTimeout(() => setToast(''), 1600);
-    }
+        body: formData
+    });
+    if (!res.ok) throw new Error("Error al guardar sugerencia");
+    setToast('¡Ruta sugerida con éxito!');
+    setTimeout(() => {
+      setToast('');
+      onClose();
+    }, 1400);
+  } catch (err) {
+    setToast('Error al guardar: ' + err.message);
+    setTimeout(() => setToast(''), 1600);
   }
+};
+
 
   // Confirmación al cerrar con cambios
   const handleTryClose = () => {

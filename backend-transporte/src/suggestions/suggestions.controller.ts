@@ -1,4 +1,10 @@
-import { Controller, Post, Body, Get, Patch, Param, ParseIntPipe } from '@nestjs/common';
+import { 
+  Controller, Post, Body, Get, Patch, Param, ParseIntPipe, UseInterceptors, UploadedFile 
+} from '@nestjs/common';
+import { FileInterceptor } from '@nestjs/platform-express';
+import { diskStorage } from 'multer';
+import { extname } from 'path';
+
 import { SuggestionsService } from './suggestions.service';
 import { Suggestion } from './suggestion.entity';
 import { CreateSuggestionDto } from './dto/create-suggestion.dto';
@@ -8,8 +14,38 @@ import { UpdateSuggestionDto } from './dto/update-suggestion.dto';
 export class SuggestionsController {
   constructor(private readonly suggestionsService: SuggestionsService) {}
 
+  // --- NUEVO: Guarda sugerencia con archivo
   @Post()
-  async create(@Body() createDto: CreateSuggestionDto) {
+  @UseInterceptors(FileInterceptor('file', {
+    storage: diskStorage({
+      destination: './uploads', // carpeta raíz en backend-transporte/uploads
+      filename: (req, file, cb) => {
+        // Asigna un nombre único al archivo
+        const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1e9);
+        cb(null, uniqueSuffix + extname(file.originalname));
+      }
+    }),
+    limits: { fileSize: 4 * 1024 * 1024 }, // 4MB máximo
+    fileFilter: (req, file, cb) => {
+      // Opcional: limita tipos de archivos
+      if (
+        file.mimetype.startsWith('image/') ||
+        file.mimetype === 'application/gpx+xml'
+      ) {
+        cb(null, true);
+      } else {
+        cb(new Error('Solo imágenes o archivos GPX permitidos'), false);
+      }
+    }
+  }))
+  async create(
+    @Body() createDto: CreateSuggestionDto,
+    @UploadedFile() file?: Express.Multer.File
+  ) {
+    // Si hay archivo, guarda su ruta en fileUrl
+    if (file) {
+      createDto.fileUrl = `/uploads/${file.filename}`;
+    }
     return this.suggestionsService.create(createDto);
   }
 

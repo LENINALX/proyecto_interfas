@@ -2,9 +2,11 @@
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { ValidationPipe } from '@nestjs/common'; // Importa ValidationPipe
+import { NestExpressApplication } from '@nestjs/platform-express'; // 👈 Importa esto
+import { join } from 'path'; // 👈 Importa esto
 
 async function bootstrap() {
-  const app = await NestFactory.create(AppModule);
+  const app = await NestFactory.create<NestExpressApplication>(AppModule);
 
   // Habilitar CORS
   app.enableCors({
@@ -12,6 +14,9 @@ async function bootstrap() {
     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
     credentials: true,
   });
+  // Configurar el almacenamiento de archivos estáticos
+  app.useStaticAssets(join(__dirname, '..', 'uploads'), { prefix: '/uploads' });
+
 
   // Habilitar validación global de DTOs
   app.useGlobalPipes(new ValidationPipe({
